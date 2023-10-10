@@ -1,6 +1,6 @@
 # mini
 
-Parse INI file like "flag" in Go
+Parse (sort of) INI files like "flag" package in Go.
 
 ## Example
 
