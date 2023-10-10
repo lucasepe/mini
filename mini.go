@@ -381,9 +381,9 @@ func (c *ConfSet) Enum(sectionName, name string, value []string) *string {
 }
 
 func (c *ConfSet) parseOne(sectionName string, line string) error {
-	parts := strings.SplitN(line, "=", 2)
+	parts := strings.SplitN(line, ":", 2)
 	if len(parts) != 2 {
-		return fmt.Errorf("invalid line format, should be 'key = value'")
+		return fmt.Errorf("invalid line format, should be 'key: value'")
 	}
 
 	name, value := strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1])

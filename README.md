@@ -15,17 +15,17 @@ import (
 
 func ExampleNewConf() {
 	data := `
-width = 1600
-subject = Computers,Education,Programming
+width: 1600
+subject: Computers,Education,Programming
 
 [background]
-art = shapes
+art: shapes
 
 [title]
-text = Awesome Book!
-color = #000000
-font-size = 160
-offset = 0.3
+text: Awesome Book!
+color: #000000
+font-size: 160
+offset: 0.3
 `
 	conf := mini.NewConf()
 
