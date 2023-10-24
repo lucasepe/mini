@@ -47,14 +47,18 @@ offset: 0.3
 
 	fmt.Println(*width)
 	fmt.Println(*height)
-	fmt.Println(*subject)
+	for _, x := range *subject {
+		fmt.Println(x)
+	}
 	fmt.Println(*watermark)
 	fmt.Println(*art)
 
 	// Output:
 	// 1600
 	// 1000
-	// [Computers,Education,Programming]
+	// Computers
+	// Education
+	// Programming
 	//
 	// shapes
 }

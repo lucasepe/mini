@@ -2,6 +2,7 @@ package mini
 
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"io"
 	"strconv"
@@ -165,22 +166,43 @@ func (d *durationValue) String() string { return (*time.Duration)(d).String() }
 // hand made...
 
 // -- []string slice Value
-type stringSlice []string
-
-func newStringSliceValue(val []string, p *[]string) *stringSlice {
-	*p = val
-	return (*stringSlice)(p)
+type stringSliceValue struct {
+	value   *[]string
+	changed bool
 }
 
-func (sa *stringSlice) Set(v string) error {
-	*sa = append(*sa, v)
+func newStringSliceValue(val []string, p *[]string) *stringSliceValue {
+	ssv := new(stringSliceValue)
+	ssv.value = p
+	*ssv.value = val
+	return ssv
+}
+
+func (s *stringSliceValue) Set(val string) error {
+	if val == "" {
+		*s.value = []string{}
+		return nil
+	}
+
+	stringReader := strings.NewReader(val)
+	csvReader := csv.NewReader(stringReader)
+	v, err := csvReader.Read()
+	if err != nil {
+		return err
+	}
+	if !s.changed {
+		*s.value = v
+	} else {
+		*s.value = append(*s.value, v...)
+	}
+	s.changed = true
 	return nil
 }
 
-func (sa *stringSlice) Get() any { return []string(*sa) }
+func (sa *stringSliceValue) Get() any { return []string(*sa.value) }
 
-func (sa *stringSlice) String() string {
-	return strings.Join(*sa, ",")
+func (sa *stringSliceValue) String() string {
+	return strings.Join(*sa.value, ",")
 }
 
 // -- enum Value
